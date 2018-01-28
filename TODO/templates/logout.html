@@ -1,0 +1,77 @@
+{% load static %}
+<html>
+<head>
+<title>
+TO-DO
+</title>
+<style>
+#background1{
+    background-image: url("{% static '2.jpg' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color:rgb(51,144,151);
+    opacity:0.2;
+    height:768px;
+    width:1340px;
+    margin: 0px 0px 0px 0px;
+
+}
+.fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    -webkit-animation-duration: 10s;
+    animation-duration: 10s;
+}
+.zoomIn{
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    -webkit-animation-duration: 10s;
+    animation-duration: 10s;
+}
+
+.hvr-grow {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    transition-duration: 0.3s;
+    transition-property: transform;
+}
+
+.hvr-grow:hover,
+.hvr-grow:focus,
+.hvr-grow:active {
+    transform: scale(1.1);
+}
+
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link href='https://fonts.googleapis.com/css?family=Fondamento' rel='stylesheet'>
+<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+</head>
+<body>
+<div style="padding-top:10px;background-color:black;opacity:0.8;">
+<h1 style="padding-left:20px;padding-top:0px;font-family:'',bold sans-serif;font-size: 50px;color:white; opacity:1.0;">
+<img src="{% static 'images.jpg' %}"><b style="padding-left:10px;" >TO-DO</b><small style="font-size:20px;"></a></button>
+
+<button style="float:right;margin-right: 20px;size:30px;margin-top: 10px;" class="btn btn-default hvr-grow"><a href="/logout/">LOGOUT</a></button>
+</h1>
+</div>
+</small>
+</h1>
+</div>
+<div class="alert alert-success">
+  <strong>you've successfully logged out!</strong> :)
+</div>
+</body>
+<script type="text/javascript">
+    window.onload = function() {
+    document.getElementById("my_audio").play();
+}
+</script>
+</html>

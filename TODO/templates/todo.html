@@ -1,0 +1,176 @@
+{% load static %}
+<html>
+<head>
+<title>
+TO-DO
+</title>
+<style>
+#background1{
+    background-image: url("{% static '2.jpg' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color:rgb(51,144,151);
+    opacity:0.2;
+    height:768px;
+    width:1340px;
+    margin: 0px 0px 0px 0px;
+
+}
+.fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    -webkit-animation-duration: 10s;
+    animation-duration: 10s;
+}
+.zoomIn{
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    -webkit-animation-duration: 10s;
+    animation-duration: 10s;
+}
+
+.hvr-grow {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    transition-duration: 0.3s;
+    transition-property: transform;
+}
+
+.hvr-grow:hover,
+.hvr-grow:focus,
+.hvr-grow:active {
+    transform: scale(1.1);
+}
+
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link href='https://fonts.googleapis.com/css?family=Fondamento' rel='stylesheet'>
+<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+</head>
+<body>
+<div style="padding-top:10px;background-color:black;opacity:0.8;">
+<h1 style="padding-left:20px;padding-top:0px;font-family:'',bold sans-serif;font-size: 50px;color:white; opacity:1.0;">
+<img src="{% static 'images.jpg' %}"><b style="padding-left:10px;" >TO-DO</b><small style="font-size:20px;"></a></button>
+
+<button style="float:right;margin-right: 20px;size:30px;margin-top: 10px;" class="btn btn-default hvr-grow"><a href="/logout/">LOGOUT</a></button>
+</h1>
+</div>
+
+<div class="alert alert-success">
+  <strong>Success!</strong>welcome {{name}}
+
+<form action="" method="POST" style="width:30%;float:right;margin:left:00px;position:relative;display:inline-block;">{% csrf_token %} 
+          
+          <input type="text" class="form-control" placeholder="Search" name="search" >
+        
+      <button type="submit" name="searchform" class="btn btn-primary">Submit</button>
+
+      </form>
+      <br>
+   <strong> Happy TODO-ing :)!</strong>
+</div>
+
+{% if present %}
+{% for work in todoes %}
+<div class="container">
+  <div class="well">
+    <div ><strong>Task:</strong></div>
+    <div><h4>{{work.task}}<br>
+    Priority: {{work.priority}}<br>
+    AT: {{work.mydate}}
+    {{work.mytime}}</h4></div>
+    <button style="float:right;" class="btn btn-default hvr-grow"><a href="/checkout/{{work.taskid}}">COMPLETED</a></button>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<button style="float:right;margin-right: 20px;size:30px;border-radius: 50%;background-color: red;opacity:0.8;" class="btn btn-default hvr-grow"><a href="/add/"><span style="font-size: 25px;border-radius: 50%; color:white;" class="glyphicon glyphicon-plus btn-sm" ></span></a></button>
+
+
+
+<div class="row">
+<!-- ROW STARTS-->
+<div class="col-lg-1">
+</div>
+<div class="col-lg-5"  style="background-color: rgb(241,241,241); ">
+{% if task %}
+<form style="margin-top:0px;" action="" method="POST">{% csrf_token %}
+<div class="form-group">
+    <label for="Input1">Enter Task:</label>
+    <input type="text" class="form-control" id="Input1" placeholder="Task" value="" name="task">
+  </div>
+  {% if notask %}
+   <div class="alert alert-warning">
+  <strong>Invalid!</strong>Please enter a task.
+</div>
+<!-- <button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button> -->
+
+  {% endif %}
+  <div class="form-group">
+    <label for="Input2">Priority:</label>
+    <input type="text" class="form-control" id="Input2" placeholder="1,2,3.." value="{{Priority}}" name="priority">
+  </div>
+  {% if nopriority %}
+   <div class="alert alert-warning">
+  <strong>Invalid!</strong> Please enter task priority.
+</div>
+<!-- <button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button> -->
+
+  {% endif %}
+  <div class="form-group">
+    <label for="Input3">Date:</label>
+    <input type="date" class="form-control" id="Input3" placeholder="YYYY/MM/DD" value="{{passwd}}" name="date">
+  </div>
+  {% if nodate %}
+   <div class="alert alert-danger">
+  <strong>Invalid!</strong> Enter a valid date.
+</div>
+<button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button>
+  {% endif %}
+
+  <div class="form-group">
+    <label for="Input3">Time:</label>
+    <input type="time" class="form-control" id="Input3" placeholder="HH:MM" value="{{passwd}}" name="time">
+  </div>
+  {% if notime %}
+   <div class="alert alert-danger">
+  <strong>Invalid!</strong> Enter a valid time.
+</div>
+<button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button>
+  {% endif %}
+
+  <button type="submit" name="mainform" class="btn btn-primary hvr-grow">SUBMIT</button>
+</form>
+{% endif %}
+</div>
+
+<div class="col-lg-1">
+</div>
+
+<div class="col-lg-4" style="background-color: rgb(241,241,241); margin-top: 30px;">
+
+
+</div>
+
+<div class="col-lg-1">
+</div>
+
+
+</div>
+
+
+</body>
+<script type="text/javascript">
+    window.onload = function() {
+    document.getElementById("my_audio").play();
+}
+</script>
+</html>
