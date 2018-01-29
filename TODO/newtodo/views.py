@@ -3,9 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from forms import signupform
 from django.contrib import messages
 from newtodo.models import Signup,Tasks
-import datetime
+from datetime import date
 count=0
-
+today=date.today()
+print "TODAY IS",today
 # Create your views here.
 def signup(request):
 	if request.method == 'GET':
@@ -64,13 +65,28 @@ def login(request):
 				tasks=Tasks()
 				print "obj=",obj,"for id",Signup.objects.get(id=user),"obje name",obj.name
 				try:
+					todaylist=[]
+					remain=[]
+					todaysize=False
+					remainsize=False
 					todoes=Tasks.objects.filter(userid=obj).order_by('mydate')
-					print todoes[0].priority,todoes[0].task
+					for tod in todoes:
+						if tod.mydate==date.today():
+							todaylist.append(tod)
+							todaysize=True
+							print "todaylist",todaylist
+						else:
+							remain.append(tod)
+							print "reaminlist",remain
+							remainsize=True
+					# print todoes[0].priority,todoes[0].task
 					RANGE=len(todoes)
 					print "range is",RANGE
 					dic={
-					"present":True,
-					"todoes":todoes,
+					"todaysize":todaysize,
+					"remainsize":remainsize,
+					"remain":remain,
+					"todaylist":todaylist,
 					"range":RANGE,
 					"name":obj.name
 					}
@@ -125,21 +141,42 @@ def add(request):
 			obj=Signup.objects.get(id=user)
 			tasks=Tasks()
 			print "ADD:obj=",obj,"for id",Signup.objects.get(id=user),"obje name",obj.name
-			try:	
+			print "TODAY IS",today
+			try:
+				todaylist=[]
+				remain=[]
+				todaysize=False
+				remainsize=False
 				todoes=Tasks.objects.filter(userid=obj).order_by('mydate')
-				print todoes[0].priority,todoes[0].task
+				for t in todoes:
+					print t.mydate
+					print "TODAY IS",today
+					if t.mydate == today:
+						print "if"
+						todaylist.append(t)
+						todaysize=True
+						print "todaylist",todaylist
+					else:
+						print "else"
+						remain.append(t)
+						print "remainlist",remain
+						remainsize=True
+				# print todoes[0].priority,todoes[0].task
 				RANGE=len(todoes)
 				print "range is",RANGE
-				if RANGE>0:
-					dic={
-					"present":True,
-					"todoes":todoes,
-					"range":RANGE,
-					"task":True,
-					"name":obj.name
-					}
-					return render(request,"todo.html",dic)
-			except:
+				dic={
+				"todaysize":todaysize,
+				"remainsize":remainsize,
+				"remain":remain,
+				"todaylist":todaylist,
+				"range":RANGE,
+				"name":obj.name,
+				"task":True
+				}
+				return render(request,"todo.html",dic)
+			except Exception as e:
+				print "except"
+				print '%s (%s)' % (e.message, type(e))
 				return render(request,"todo.html",{"task":True,"name":obj.name})
 		elif request.method == 'POST' and 'mainform' in request.POST:
 			obj=Signup()
@@ -172,19 +209,34 @@ def add(request):
 				obj=Signup.objects.get(id=user)
 				tasks=Tasks()
 				print "ADD:obj=",obj,"for id",Signup.objects.get(id=user),"obje name",obj.name
-				try:	
+				try:
+					todaylist=[]
+					remain=[]
+					todaysize=False
+					remainsize=False
 					todoes=Tasks.objects.filter(userid=obj).order_by('mydate')
-					print todoes[0].priority,todoes[0].task
+					for tod in todoes:
+						if tod.mydate==today:
+							todaylist.append(tod)
+							todaysize=True
+							print "todaylist",todaylist
+						else:
+							remain.append(tod)
+							print "reaminlist",remain
+							remainsize=True
+					# print todoes[0].priority,todoes[0].task
 					RANGE=len(todoes)
 					print "range is",RANGE
 					dic={
-						"present":True,
-						"todoes":todoes,
-						"range":RANGE,
-						"task":True,
-						"name":obj.name,
-						'notask':True
-						}
+					"todaysize":todaysize,
+					"remainsize":remainsize,
+					"remain":remain,
+					"todaylist":todaylist,
+					"range":RANGE,
+					"name":obj.name,
+					'notask':True,
+					'task':True
+					}
 					return render(request,"todo.html",dic)
 				except:
 					return render(request,"todo.html",{"task":True,"name":obj.name,'notask':True})
@@ -193,19 +245,34 @@ def add(request):
 				obj=Signup.objects.get(id=user)
 				tasks=Tasks()
 				print "ADD:obj=",obj,"for id",Signup.objects.get(id=user),"obje name",obj.name
-				try:	
+				try:
+					todaylist=[]
+					remain=[]
+					todaysize=False
+					remainsize=False
 					todoes=Tasks.objects.filter(userid=obj).order_by('mydate')
-					print todoes[0].priority,todoes[0].task
+					for tod in todoes:
+						if tod.mydate==today:
+							todaylist.append(tod)
+							todaysize=True
+							print "todaylist",todaylist
+						else:
+							remain.append(tod)
+							print "reaminlist",remain
+							remainsize=True
+					# print todoes[0].priority,todoes[0].task
 					RANGE=len(todoes)
 					print "range is",RANGE
 					dic={
-						"present":True,
-						"todoes":todoes,
-						"range":RANGE,
-						"task":True,
-						"name":obj.name,
-						'nopriority':True
-						}
+					"todaysize":todaysize,
+					"remainsize":remainsize,
+					"remain":remain,
+					"todaylist":todaylist,
+					"range":RANGE,
+					"name":obj.name,
+					'nopriority':True,
+					'task':True
+					}
 					return render(request,"todo.html",dic)
 				except:
 					return render(request,"todo.html",{"task":True,"name":obj.name,'nopriority':True})
@@ -215,18 +282,33 @@ def add(request):
 				tasks=Tasks()
 				print "ADD:obj=",obj,"for id",Signup.objects.get(id=user),"obje name",obj.name
 				try:	
+					todaylist=[]
+					remain=[]
+					todaysize=False
+					remainsize=False
 					todoes=Tasks.objects.filter(userid=obj).order_by('mydate')
-					print todoes[0].priority,todoes[0].task
+					for tod in todoes:
+						if tod.mydate==today:
+							todaylist.append(tod)
+							todaysize=True
+							print "todaylist",todaylist
+						else:
+							remain.append(tod)
+							print "reaminlist",remain
+							remainsize=True
+					# print todoes[0].priority,todoes[0].task
 					RANGE=len(todoes)
 					print "range is",RANGE
 					dic={
-						"present":True,
-						"todoes":todoes,
-						"range":RANGE,
-						"task":True,
-						"name":obj.name,
-						'nodate':True
-						}
+					"todaysize":todaysize,
+					"remainsize":remainsize,
+					"remain":remain,
+					"todaylist":todaylist,
+					"range":RANGE,
+					"name":obj.name,
+					'nodate':True,
+					'task':True
+					}
 					return render(request,"todo.html",dic)
 				except:
 					return render(request,"todo.html",{"task":True,"name":obj.name,'nodate':True})
@@ -235,18 +317,33 @@ def add(request):
 				obj=Signup.objects.get(id=user)
 				tasks=Tasks()
 				print "ADD:obj=",obj,"for id",Signup.objects.get(id=user),"obje name",obj.name
-				try:	
+				try:
+					todaylist=[]
+					remain=[]
+					todaysize=False
+					remainsize=False
 					todoes=Tasks.objects.filter(userid=obj).order_by('mydate')
-					print todoes[0].priority,todoes[0].task
+					for tod in todoes:
+						if tod.mydate==today:
+							todaylist.append(tod)
+							todaysize=True
+							print "todaylist",todaylist
+						else:
+							remain.append(tod)
+							print "reaminlist",remain
+							remainsize=True
+					# print todoes[0].priority,todoes[0].task
 					RANGE=len(todoes)
 					print "range is",RANGE
 					dic={
-						"present":True,
-						"todoes":todoes,
-						"range":RANGE,
-						"task":True,
-						"name":obj.name,
-						'notime':True
+					"todaysize":todaysize,
+					"remainsize":remainsize,
+					"remain":remain,
+					"todaylist":todaylist,
+					"range":RANGE,
+					"name":obj.name,
+					'notime':True,
+					'task':True
 						}
 					return render(request,"todo.html",dic)
 				except:
@@ -258,21 +355,39 @@ def add(request):
 			obj=Signup.objects.get(id=user)
 			tasks=Tasks()
 			print "ADD:obj=",obj,"for id",Signup.objects.get(id=user),"obje name",obj.name
-			try:	
+			try:
+				todaylist=[]
+				remain=[]
+				todaysize=False
+				remainsize=False
 				todoes=Tasks.objects.filter(userid=obj).order_by('mydate')
-				print todoes[0].priority,todoes[0].task
+				for tod in todoes:
+					print tod.mydate
+					print today
+					if tod.mydate==today:
+						todaylist.append(tod)
+						todaysize=True
+						print "todaylist",todaylist
+					else:
+						remain.append(tod)
+						print "reaminlist",remain
+						remainsize=True
+				# print todoes[0].priority,todoes[0].task
 				RANGE=len(todoes)
 				print "range is",RANGE
-				if RANGE>0:
-					dic={
-					"present":True,
-					"todoes":todoes,
-					"range":RANGE,
-					"task":False,
-					"name":obj.name
-					}
-					return render(request,"todo.html",dic)
-			except:
+				dic={
+				"todaysize":todaysize,
+				"remainsize":remainsize,
+				"remain":remain,
+				"todaylist":todaylist,
+				"range":RANGE,
+				"name":obj.name,
+				'task':False
+				}
+				return render(request,"todo.html",dic)
+			except Exception as e:
+				print "except"
+				print '%s (%s)' % (e.message, type(e))
 				return render(request,"todo.html",{"name":obj.name})
 		elif request.method=='POST' and 'searchform' in request.POST:
 			print "inseachlogin"
@@ -315,20 +430,34 @@ def checkout(request,taskid):
 		obj=Signup.objects.get(id=user)
 		tasks=Tasks()
 		print "ADD:obj=",obj,"for id",Signup.objects.get(id=user),"obje name",obj.name
-		try:	
+		try:
+			todaylist=[]
+			remain=[]
+			todaysize=False
+			remainsize=False
 			todoes=Tasks.objects.filter(userid=obj).order_by('mydate')
-			print todoes[0].priority,todoes[0].task
+			for tod in todoes:
+				if tod.mydate==date.today():
+					todaylist.append(tod)
+					todaysize=True
+					print "todaylist",todaylist
+				else:
+					remain.append(tod)
+					print "reaminlist",remain
+					remainsize=True
+			# print todoes[0].priority,todoes[0].task
 			RANGE=len(todoes)
 			print "range is",RANGE
-			if RANGE>0:
-				dic={
-				"present":True,
-				"todoes":todoes,
-				"range":RANGE,
-				"task":False,
-				"name":obj.name
-				}
-				return render(request,"todo.html",dic)
+			dic={
+			"todaysize":todaysize,
+			"remainsize":remainsize,
+			"remain":remain,
+			"todaylist":todaylist,
+			"range":RANGE,
+			"name":obj.name,
+			'task':False
+			}
+			return render(request,"todo.html",dic)
 		except:
 			return render(request,"todo.html",{"name":obj.name})
 	elif request.method=='POST' and 'searchform' in request.POST:

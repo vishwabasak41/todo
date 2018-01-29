@@ -66,6 +66,8 @@ TO-DO
 <div class="alert alert-success">
   <strong>Success!</strong>welcome {{name}}
 
+
+
 <form action="" method="POST" style="width:30%;float:right;margin:left:00px;position:relative;display:inline-block;">{% csrf_token %} 
           
           <input type="text" class="form-control" placeholder="Search by taskname/priority" name="search" >
@@ -77,91 +79,112 @@ TO-DO
    <strong> Happy TODO-ing :)!</strong>
 </div>
 
-{% if present %}
-{% for work in todoes %}
-<div class="container">
-  <div class="well">
-    <div ><strong>Task:</strong></div>
-    <div><h4>{{work.task}}<br>
-    Priority: {{work.priority}}<br>
-    AT: {{work.mydate}}
-    {{work.mytime}}</h4></div>
-    <button style="float:right;" class="btn btn-default hvr-grow"><a href="/checkout/{{work.taskid}}">COMPLETED</a></button>
-  </div>
-</div>
-{% endfor %}
-{% endif %}
+<div class="row"> 
+      <div class="col-lg-1">
+      </div> 
+        <div class="col-lg-5">
+                <strong><h2><b>TODAY:</b></h2></strong>
+                {% if todaysize %}
+                {% for work in todaylist %}
+                <div class="container">
+                  <div class="well" style="width:50%">
+                    <div ><strong>Task:</strong></div>
+                    <div><h4>{{work.task}}<br>
+                    Priority: {{work.priority}}<br>
+                    AT: {{work.mydate}}
+                    {{work.mytime}}</h4></div>
+                    <button style="" class="btn btn-default hvr-grow"><a href="/checkout/{{work.taskid}}">DONE</a></button>
+                  </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="alert alert-warning">
+                  <strong>No tasks today {{name}}</strong>
+                </div>
 
-<button style="float:right;margin-right: 20px;size:30px;border-radius: 50%;background-color: red;opacity:0.8;" class="btn btn-default hvr-grow"><a href="/add/"><span style="font-size: 25px;border-radius: 50%; color:white;" class="glyphicon glyphicon-plus btn-sm" ></span></a></button>
+                {% endif %}
+                <BR>
+                <strong><h2><b>OTHER TASKS:</b></h2></strong>
+                {% if remainsize %}
+                {% for work in remain %}
+                <div class="container">
+                  <div class="well" style="width:50%">
+                    <div ><strong>Task:</strong></div>
+                    <div><h4>{{work.task}}<br>
+                    Priority: {{work.priority}}<br>
+                    AT: {{work.mydate}}
+                    {{work.mytime}}</h4></div>
+                    <button style="" class="btn btn-default hvr-grow"><a href="/checkout/{{work.taskid}}">DONE</a></button>
+                  </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="alert alert-warning">
+                  <strong>No other tasks! {{name}}</strong>
+                </div>
 
+                {% endif %}
 
-
-<div class="row">
+                <button style="float:right;margin-right: 20px;size:30px;border-radius: 50%;background-color: red;opacity:0.8;" class="btn btn-default hvr-grow"><a href="/add/"><span style="font-size: 25px;border-radius: 50%; color:white;" class="glyphicon glyphicon-plus btn-sm" ></span></a></button>
+        </div>
 <!-- ROW STARTS-->
-<div class="col-lg-1">
-</div>
-<div class="col-lg-5"  style="background-color: rgb(241,241,241); ">
-{% if task %}
-<form style="margin-top:0px;" action="" method="POST">{% csrf_token %}
-<div class="form-group">
-    <label for="Input1">Enter Task:</label>
-    <input type="text" class="form-control" id="Input1" placeholder="Task" value="" name="task">
-  </div>
-  {% if notask %}
-   <div class="alert alert-warning">
-  <strong>Invalid!</strong>Please enter a task.
-</div>
-<!-- <button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button> -->
+    <div class="col-lg-1">
+    </div>
+            <div class="col-lg-4"  style="background-color: rgb(241,241,241); margin-top: 60px; ">
+            {% if task %}
+            <form style="margin-top:20px;" action="" method="POST">{% csrf_token %}
+            <div class="form-group">
+                <label for="Input1">Enter Task:</label>
+                <input type="text" class="form-control" id="Input1" placeholder="Task" value="" name="task">
+              </div>
+              {% if notask %}
+               <div class="alert alert-warning">
+              <strong>Invalid!</strong>Please enter a task.
+            </div>
+            <!-- <button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button> -->
 
-  {% endif %}
-  <div class="form-group">
-    <label for="Input2">Priority:</label>
-    <input type="text" class="form-control" id="Input2" placeholder="1,2,3.." value="{{Priority}}" name="priority">
-  </div>
-  {% if nopriority %}
-   <div class="alert alert-warning">
-  <strong>Invalid!</strong> Please enter task priority.
-</div>
-<!-- <button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button> -->
+              {% endif %}
+              <div class="form-group">
+                <label for="Input2">Priority:</label>
+                <input type="text" class="form-control" id="Input2" placeholder="1,2,3.." value="{{Priority}}" name="priority">
+              </div>
+              {% if nopriority %}
+               <div class="alert alert-warning">
+              <strong>Invalid!</strong> Please enter task priority.
+            </div>
+            <!-- <button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button> -->
 
-  {% endif %}
-  <div class="form-group">
-    <label for="Input3">Date:</label>
-    <input type="date" class="form-control" id="Input3" placeholder="YYYY/MM/DD" value="{{passwd}}" name="date">
-  </div>
-  {% if nodate %}
-   <div class="alert alert-danger">
-  <strong>Invalid!</strong> Enter a valid date.
-</div>
-<button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button>
-  {% endif %}
+              {% endif %}
+              <div class="form-group">
+                <label for="Input3">Date:</label>
+                <input type="date" class="form-control" id="Input3" placeholder="YYYY/MM/DD" value="{{passwd}}" name="date">
+              </div>
+              {% if nodate %}
+               <div class="alert alert-danger">
+              <strong>Invalid!</strong> Enter a valid date.
+            </div>
+            <button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button>
+              {% endif %}
 
-  <div class="form-group">
-    <label for="Input3">Time:</label>
-    <input type="time" class="form-control" id="Input3" placeholder="HH:MM" value="{{passwd}}" name="time">
-  </div>
-  {% if notime %}
-   <div class="alert alert-danger">
-  <strong>Invalid!</strong> Enter a valid time.
-</div>
-<button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button>
-  {% endif %}
+              <div class="form-group">
+                <label for="Input3">Time:</label>
+                <input type="time" class="form-control" id="Input3" placeholder="HH:MM" value="{{passwd}}" name="time">
+              </div>
+              {% if notime %}
+               <div class="alert alert-danger">
+              <strong>Invalid!</strong> Enter a valid time.
+            </div>
+            <button style="float:right;" class="btn btn-default hvr-grow"><a href="/signup/">TRY AGAIN</a></button>
+              {% endif %}
 
-  <button type="submit" name="mainform" class="btn btn-primary hvr-grow">SUBMIT</button>
-</form>
-{% endif %}
-</div>
+              <button type="submit" name="mainform" class="btn btn-primary hvr-grow">SUBMIT</button>
+            </form>
+            {% endif %}
+            </div>
+      
 
-<div class="col-lg-1">
-</div>
-
-<div class="col-lg-4" style="background-color: rgb(241,241,241); margin-top: 30px;">
-
-
-</div>
-
-<div class="col-lg-1">
-</div>
+    <div class="col-lg-1">
+    </div>
 
 
 </div>
